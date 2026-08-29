@@ -77,3 +77,23 @@ footer{border-top:1px solid var(--line);padding:38px 0 70px;color:var(--muted);f
   .hero{padding-top:46px}
   th,td{font-size:.86rem;padding:9px 8px}
 }
+
+.site-grid{margin-top:18px}
+.diagram{
+  position:relative;height:420px;margin-top:18px;border:2px solid var(--ink);
+  background:linear-gradient(#fff,#fbfaf5);border-radius:10px;overflow:hidden;
+}
+.edge{position:absolute;left:0;right:0;text-align:center;font-weight:850;color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.08em}
+.edge.top{top:8px}.edge.bottom{bottom:8px}
+.dot{
+  position:absolute;display:flex;align-items:center;justify-content:center;text-align:center;
+  min-width:48px;min-height:48px;padding:7px;border-radius:999px;font-weight:900;line-height:1.05;
+  border:2px solid rgba(29,42,37,.35);box-shadow:0 2px 7px rgba(0,0,0,.08);
+}
+.dot small{font-size:.58rem;font-weight:700}
+.pinkdot{background:var(--pink)}.bluedot{background:var(--blue)}
+.p1{left:8%;top:27%}.p5{left:35%;top:13%}.p3{right:8%;top:12%}.p6{right:28%;top:31%}.p0{right:8%;top:36%}.p4{right:13%;bottom:19%}
+.blue-diagram .building{position:absolute;border:2px solid var(--ink);background:#fff;padding:16px;text-align:center;font-weight:800}
+.community{left:20%;top:25%;width:38%}.parking{right:10%;top:18%;width:30%;height:32%}
+.b6{left:7%;top:19%}.b4{right:22%;bottom:22%}
+@media(max-width:760px){.diagram{height:360px}}
