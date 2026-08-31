@@ -86,7 +86,6 @@
           <div id="result-kicker" class="kicker"></div>
           <h2 id="result-title"></h2>
           <p id="result-message" class="lead"></p>
-          <p id="result-score" class="score"></p>
         </div>
 
         <div class="song-card">
@@ -343,7 +342,6 @@
   const warning=document.getElementById('quiz-warning');
   const title=document.getElementById('result-title');
   const message=document.getElementById('result-message');
-  const scoreLine=document.getElementById('result-score');
   const kicker=document.getElementById('result-kicker');
   const retake=document.getElementById('retake-quiz');
   if(!form) return;
@@ -365,8 +363,11 @@
     });
     kicker.textContent=score===5?'Perfect score • 5 out of 5':'Score • '+score+' out of 5';
     title.textContent=score===5?'You passed the Mosquito School Entrance Exam!':'Good thing you’re here to learn!';
-    message.textContent=score===5?'You are officially cleared for the theme song.':'No one fails Mosquito School. Check the answers, sharpen your skeeter science, and enjoy the exact same reward.';
-    scoreLine.textContent=score===5?'Certified Backyard Scientist*':'Backyard Scientist in Training';
+    if(score===5){
+      message.innerHTML='You now qualify as a <strong>Certified Backyard Mosquito Scientist</strong> and you are officially cleared for the theme song!';
+    } else {
+      message.textContent='No one fails Mosquito School. Check the answers, sharpen your skeeter science, and enjoy the exact same reward.';
+    }
     form.hidden=true;
     result.hidden=false;
     result.scrollIntoView({behavior:'smooth',block:'start'});
