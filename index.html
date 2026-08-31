@@ -95,10 +95,124 @@
             <div class="kicker">Your reward either way</div>
             <h3>Backyard Mosquito School</h3>
             <p>The official theme song of our very unofficial backyard laboratory.</p>
-            <audio controls preload="metadata">
-              <source src="assets/backyard-mosquito-school.mp3" type="audio/mpeg">
-              Your browser does not support the audio player.
-            </audio>
+            <div class="theme-player">
+              <audio id="theme-audio" controls preload="metadata">
+                <source src="assets/backyard-mosquito-school.mp3" type="audio/mpeg">
+                Your browser does not support the audio player.
+              </audio>
+              <div class="player-extras" aria-label="Theme song extra controls">
+                <button id="jump-back" class="player-button" type="button" aria-label="Go back 10 seconds">↶ 10 sec</button>
+                <button id="jump-forward" class="player-button" type="button" aria-label="Go forward 10 seconds">10 sec ↷</button>
+                <button id="lyrics-toggle" class="player-button lyrics-button" type="button" aria-expanded="false" aria-controls="theme-lyrics">Lyrics ▾</button>
+              </div>
+              <div id="theme-lyrics" class="theme-lyrics" hidden>
+                <h4>Backyard Mosquito School</h4>
+                <p><strong>[Verse 1]</strong><br>
+                We only wanted fewer bites<br>
+                whenever we stepped outside.<br>
+                So we filled pink buckets up;<br>
+                thought we'd figure out this fight.</p>
+
+                <p>We threw in leaves and skeeter dunks.<br>
+                Set 'em underneath the tree.<br>
+                Asked, “If the moms lay eggs in there,<br>
+                won't we all soon liv bite-free?”</p>
+
+                <p><strong>[Pre-Chorus]</strong><br>
+                But one small question led to two.<br>
+                And two turned into ten.<br>
+                Now we're staring at bucket water,<br>
+                with our eyes criss-crossed again.</p>
+
+                <p><strong>[Chorus]</strong><br>
+                At the Backyard Mosquito School,<br>
+                where the buckets make the rules,<br>
+                we watch the water, take some notes,<br>
+                and see what skeeters choose.</p>
+
+                <p>We don't have to fight everything.<br>
+                Just break one tiny chain.<br>
+                Learn a little 'bout how they live<br>
+                and get ahead of the game.</p>
+
+                <p>And something a backyard scientist knows,<br>
+                every answer breeds more questions.<br>
+                That's just how mosquito science goes!</p>
+
+                <p><strong>[Verse 2]</strong><br>
+                One was dark as sweet iced-tea.<br>
+                One was barely brown.<br>
+                The dog knocked one bucket over,<br>
+                then took another down.</p>
+
+                <p>So we measured every water line;<br>
+                mapped 'em tree to tree.<br>
+                Ninety-four feet as the skeeter flies,<br>
+                now that's good geography.</p>
+
+                <p><strong>[Pre-Chorus]</strong><br>
+                We scraped the sides and taped the specks,<br>
+                and squinted at the view.<br>
+                Is that an egg? A piece of leaf?<br>
+                We haven't got a clue!</p>
+
+                <p><strong>[Verse 3]</strong><br>
+                Then the blue-bucket class arrived<br>
+                with marsh grass piled high.<br>
+                Seven days of summer sun<br>
+                and that smell had multiplied.</p>
+
+                <p>Pink was brewing gentle tea.<br>
+                Blue had found its funk.<br>
+                And suddenly we're standing there,<br>
+                discussing scientific gunk.</p>
+
+                <p><strong>[Bridge]</strong><br>
+                We've got sticks and binder clips,<br>
+                zip ties through the lid.<br>
+                We are measurin' and labelin'.<br>
+                Look what one small question did!</p>
+
+                <p>Overflow holes and fill lines,<br>
+                it's ALL under control!<br>
+                We came out here to stop the bites.<br>
+                Now we're running Mosquito School.</p>
+
+                <p><strong>[Pull back]</strong><br>
+                But here's the thing we've learned so far:<br>
+                Not seeing doesn't prove<br>
+                that nothing ever happened here,<br>
+                or nothing ever moved.</p>
+
+                <p>So we'll watch a little closer.<br>
+                Ask “What does the data show?”<br>
+                A good answer isn't always “yes;”<br>
+                sometimes it's “We don't know!”</p>
+
+                <p><strong>[Final Chorus]</strong><br>
+                At the Backyard Mosquito School,<br>
+                we have one simple rule:<br>
+                We don't make the answer fit the story,<br>
+                We let the data choose.</p>
+
+                <p>We don't have to fight everything.<br>
+                There's knowledge we can gain.<br>
+                Learn a little 'bout how they live,<br>
+                and interrupt the chain.</p>
+
+                <p>And something a backyard scientist knows,<br>
+                every answer breeds more questions.<br>
+                That's just how mosquito science goes!</p>
+
+                <p><strong>[Outro]</strong><br>
+                Fewer breeders,<br>
+                fewer bites,<br>
+                let the good bugs fly!</p>
+
+                <p>A bucket full of questions,<br>
+                and a little B. T. I.!</p>
+              </div>
+            </div>
             <blockquote>“Every answer breeds more questions. That's just how mosquito science goes!”</blockquote>
           </div>
         </div>
@@ -265,6 +379,34 @@
     warning.textContent='';
     form.scrollIntoView({behavior:'smooth',block:'start'});
   });
+
+  const audio=document.getElementById('theme-audio');
+  const jumpBack=document.getElementById('jump-back');
+  const jumpForward=document.getElementById('jump-forward');
+  const lyricsToggle=document.getElementById('lyrics-toggle');
+  const lyrics=document.getElementById('theme-lyrics');
+
+  if(audio && jumpBack && jumpForward){
+    jumpBack.addEventListener('click',function(){
+      audio.currentTime=Math.max(0,audio.currentTime-10);
+    });
+    jumpForward.addEventListener('click',function(){
+      const end=Number.isFinite(audio.duration)?audio.duration:audio.currentTime+10;
+      audio.currentTime=Math.min(end,audio.currentTime+10);
+    });
+  }
+
+  if(lyricsToggle && lyrics){
+    lyricsToggle.addEventListener('click',function(){
+      const opening=lyrics.hidden;
+      lyrics.hidden=!opening;
+      lyricsToggle.setAttribute('aria-expanded',String(opening));
+      lyricsToggle.textContent=opening?'Lyrics ▴':'Lyrics ▾';
+      if(opening){
+        lyrics.scrollIntoView({behavior:'smooth',block:'nearest'});
+      }
+    });
+  }
 })();
 </script>
 </body>
