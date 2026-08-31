@@ -13,6 +13,7 @@
     <nav>
       <a class="brand" href="index.html">SGI Backyard Mosquito School</a>
       <div class="navlinks">
+        <a href="#entrance-exam">Entrance Exam</a>
         <a href="#experiment">The Experiment</a>
         <a href="#sites">Study Sites</a>
         <a href="report-1.html">Field Report #1</a>
@@ -34,6 +35,88 @@
       <span class="pill">🔬 Weekly field observations</span>
     </div>
   </div>
+
+  <section id="entrance-exam" class="exam-section">
+    <div class="wrap">
+      <div class="kicker">No studying required</div>
+      <h2>The Mosquito School Entrance Exam</h2>
+      <p class="lead">Five easy questions. Everybody gets to hear the theme song. The only question is whether you arrive as a graduate or as someone who came to exactly the right school.</p>
+
+      <form id="mosquito-quiz" class="exam-card">
+        <fieldset data-answer="female">
+          <legend><span>1</span> Which mosquitoes bite people?</legend>
+          <label><input type="radio" name="q1" value="male"> Male mosquitoes</label>
+          <label><input type="radio" name="q1" value="female"> Female mosquitoes</label>
+          <label><input type="radio" name="q1" value="both"> Both males and females</label>
+        </fieldset>
+
+        <fieldset data-answer="water">
+          <legend><span>2</span> Where do mosquitoes begin their lives?</legend>
+          <label><input type="radio" name="q2" value="trees"> In trees</label>
+          <label><input type="radio" name="q2" value="water"> In or around water</label>
+          <label><input type="radio" name="q2" value="grass"> In tall grass</label>
+        </fieldset>
+
+        <fieldset data-answer="larvae">
+          <legend><span>3</span> What does Bti in a dunk bucket primarily target?</legend>
+          <label><input type="radio" name="q3" value="adults"> Adult mosquitoes flying around the yard</label>
+          <label><input type="radio" name="q3" value="larvae"> Feeding mosquito larvae in the water</label>
+          <label><input type="radio" name="q3" value="allbugs"> Every bug that visits the bucket</label>
+        </fieldset>
+
+        <fieldset data-answer="no">
+          <legend><span>4</span> If we don't see larvae in a Bti-treated bucket, does that prove mosquitoes never laid eggs there?</legend>
+          <label><input type="radio" name="q4" value="yes"> Yes</label>
+          <label><input type="radio" name="q4" value="no"> No</label>
+        </fieldset>
+
+        <fieldset data-answer="learn">
+          <legend><span>5</span> What's the goal of Backyard Mosquito School?</legend>
+          <label><input type="radio" name="q5" value="allbugs"> Get rid of every bug in the backyard</label>
+          <label><input type="radio" name="q5" value="spray"> Spray everything that moves</label>
+          <label><input type="radio" name="q5" value="learn"> Learn enough about mosquitoes to interrupt their life cycle while leaving the rest of the backyard alone</label>
+        </fieldset>
+
+        <p id="quiz-warning" class="quiz-warning" role="alert"></p>
+        <button class="button exam-submit" type="submit">Grade My Entrance Exam →</button>
+      </form>
+
+      <div id="exam-result" class="exam-result" hidden aria-live="polite">
+        <div class="result-copy">
+          <div id="result-kicker" class="kicker"></div>
+          <h2 id="result-title"></h2>
+          <p id="result-message" class="lead"></p>
+          <p id="result-score" class="score"></p>
+        </div>
+
+        <div class="song-card">
+          <img src="assets/mosquito-school-theme-cartoon.png" alt="Cartoon of the pink and blue Mosquito School study buckets">
+          <div class="song-copy">
+            <div class="kicker">Your reward either way</div>
+            <h3>Backyard Mosquito School</h3>
+            <p>The official theme song of our very unofficial backyard laboratory.</p>
+            <audio controls preload="metadata">
+              <source src="assets/backyard-mosquito-school.mp3" type="audio/mpeg">
+              Your browser does not support the audio player.
+            </audio>
+            <blockquote>“Every answer breeds more questions. That's just how mosquito science goes!”</blockquote>
+          </div>
+        </div>
+
+        <details class="answer-key">
+          <summary>See the answers &amp; learn why</summary>
+          <ol>
+            <li><strong>Female mosquitoes bite.</strong> Females of biting species take blood meals to support egg production; males feed on plant sugars.</li>
+            <li><strong>Mosquitoes begin life in or around water.</strong> Eggs, larvae and pupae are tied to aquatic habitats, though some species lay eggs just above the waterline.</li>
+            <li><strong>Bti targets feeding mosquito larvae.</strong> The larvae must ingest it. It is not an airborne adult-mosquito killer.</li>
+            <li><strong>No.</strong> Not seeing larvae does not prove eggs were never laid. In a Bti-treated bucket, susceptible larvae may die before we inspect them.</li>
+            <li><strong>Learn enough to interrupt the mosquito life cycle without fighting the whole backyard.</strong> Fewer breeders. Fewer bites. Let the good bugs fly.</li>
+          </ol>
+        </details>
+        <button id="retake-quiz" class="text-button" type="button">Retake the entrance exam</button>
+      </div>
+    </div>
+  </section>
 
   <section id="experiment">
     <div class="wrap">
@@ -138,5 +221,51 @@
     <span class="small">This site documents observations and educational research. Follow pesticide labels and local public-health guidance.</span>
   </div>
 </footer>
+
+<script>
+(function(){
+  const form=document.getElementById('mosquito-quiz');
+  const result=document.getElementById('exam-result');
+  const warning=document.getElementById('quiz-warning');
+  const title=document.getElementById('result-title');
+  const message=document.getElementById('result-message');
+  const scoreLine=document.getElementById('result-score');
+  const kicker=document.getElementById('result-kicker');
+  const retake=document.getElementById('retake-quiz');
+  if(!form) return;
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const fields=[...form.querySelectorAll('fieldset')];
+    const unanswered=fields.filter((f,i)=>!form.querySelector('input[name="q'+(i+1)+'"]:checked'));
+    if(unanswered.length){
+      warning.textContent='Answer all five questions first. Wild guesses are a respected Mosquito School tradition.';
+      unanswered[0].scrollIntoView({behavior:'smooth',block:'center'});
+      return;
+    }
+    warning.textContent='';
+    let score=0;
+    fields.forEach((f,i)=>{
+      const chosen=form.querySelector('input[name="q'+(i+1)+'"]:checked');
+      if(chosen && chosen.value===f.dataset.answer) score++;
+    });
+    kicker.textContent=score===5?'Perfect score • 5 out of 5':'Score • '+score+' out of 5';
+    title.textContent=score===5?'You passed the Mosquito School Entrance Exam!':'Good thing you’re here to learn!';
+    message.textContent=score===5?'You are officially cleared for the theme song.':'No one fails Mosquito School. Check the answers, sharpen your skeeter science, and enjoy the exact same reward.';
+    scoreLine.textContent=score===5?'Certified Backyard Scientist*':'Backyard Scientist in Training';
+    form.hidden=true;
+    result.hidden=false;
+    result.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  retake.addEventListener('click',function(){
+    form.reset();
+    result.hidden=true;
+    form.hidden=false;
+    warning.textContent='';
+    form.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
 </body>
 </html>

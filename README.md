@@ -26,3 +26,7 @@ No build command is required. Publish directory is the repository root.
 - `report-1.html` — Initial field report, Aug. 29, 2026
 - `styles.css` — site styling and simplified study diagrams
 - `assets/` — selected field photographs
+
+
+## Aug. 30 update
+Added 5-question Mosquito School Entrance Exam and theme-song reveal. Both passing and learning-in-progress results unlock the same song. Added final MP3 and cartoon artwork. Corrected Izzi spelling in Field Report #1.
